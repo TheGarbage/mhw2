@@ -34,6 +34,7 @@ function nascondiDidascalia(event){
     blocco.addEventListener('mouseover', vediDidascalia);
 }
 
+const giochiPreferiti = [];
 const blocchi = document.querySelectorAll('#blocchi .blocco');
 for (const blocco of blocchi){
     blocco.addEventListener('mouseover', vediDidascalia);

@@ -4,6 +4,35 @@ function apriSottoSito(event){
     if(sottoSito !== null){
         sottoSito.classList.remove('hidden');
         oscuraSito();
+        const preferiti = sottoSito.querySelector(".preferiti");
+        const nonPreferiti = sottoSito.querySelector(".nonPreferiti");
+        let imgPreferiti;
+        for(const gioco of sottoSito.querySelectorAll(".preferiti .gioco")){
+            if(giochiPreferiti.indexOf(gioco.querySelector("h5").textContent) === -1){
+                nonPreferiti.querySelector(".giochi").appendChild(gioco);
+                if(nonPreferiti.classList.contains('hidden'))
+                    nonPreferiti.classList.remove('hidden');
+                imgPreferiti = gioco.querySelector("div img");
+                imgPreferiti.src = "Imm-NonPreferito.jpg";
+                imgPreferiti.removeEventListener('click', togliPreferiti);
+                imgPreferiti.addEventListener('click', inserisciPreferiti);
+            }
+        }
+        if(preferiti.querySelector(".gioco") === null)
+            preferiti.classList.add('hidden');
+        for(const gioco of sottoSito.querySelectorAll(".nonPreferiti .gioco")){
+            if(giochiPreferiti.indexOf(gioco.querySelector("h5").textContent) !== -1){
+                preferiti.querySelector(".giochi").appendChild(gioco);
+                if(preferiti.classList.contains('hidden'))
+                    preferiti.classList.remove('hidden');
+                imgPreferiti = gioco.querySelector("div img");
+                imgPreferiti.src = "Imm-Preferito.jpg";
+                imgPreferiti.removeEventListener('click', inserisciPreferiti);
+                imgPreferiti.addEventListener('click', togliPreferiti);
+            }
+        }
+        if(nonPreferiti.querySelector(".gioco") === null)
+            nonPreferiti.classList.add('hidden');
         return;
     }
     const sottoSiti = document.querySelector("#sotto-siti");
@@ -43,7 +72,6 @@ function apriSottoSito(event){
     subHeader.appendChild(conteiner);
     const preferiti = document.createElement('section');
     preferiti.classList.add('preferiti');
-    preferiti.classList.add('hidden');
     contenutoSottoSito.appendChild(preferiti);
     const textPreferiti = document.createElement('li');
     textPreferiti.textContent = "Preferiti della categoria";
@@ -52,7 +80,7 @@ function apriSottoSito(event){
     divPreferiti.classList.add('giochi');
     preferiti.appendChild(divPreferiti);
     const nonPreferiti = document.createElement('section');
-    preferiti.classList.add('nonPreferiti');
+    nonPreferiti.classList.add('nonPreferiti');
     contenutoSottoSito.appendChild(nonPreferiti);
     const textNonPreferiti = document.createElement('li');
     textNonPreferiti.textContent = "Lista giochi categoria";
@@ -61,11 +89,9 @@ function apriSottoSito(event){
     divNonPreferiti.classList.add('giochi');
     nonPreferiti.appendChild(divNonPreferiti);
     for(const item of contenuti){
-        console.log(index[newSottoSito.dataset.tema] + " === " + item.categoria);
         if(item.categoria === index[newSottoSito.dataset.tema] || index[newSottoSito.dataset.tema] === 'VediTutto'){
             const gioco = document.createElement('div');
             gioco.classList.add('gioco');
-            divNonPreferiti.appendChild(gioco);
             const noClick = document.createElement('section');
             noClick.classList.add('noclick');
             gioco.appendChild(noClick);
@@ -75,9 +101,19 @@ function apriSottoSito(event){
             nomeGioco.textContent = item.titolo;
             divGioco.appendChild(nomeGioco);
             const imgPreferiti = document.createElement('img');
-            imgPreferiti.src = "Imm-NonPreferito.jpg";
             imgPreferiti.classList.add("pointer");
             divGioco.appendChild(imgPreferiti);
+            if(giochiPreferiti.indexOf(nomeGioco.textContent) === -1){
+                divNonPreferiti.appendChild(gioco);
+                imgPreferiti.src = "Imm-NonPreferito.jpg";
+                imgPreferiti.addEventListener("click", inserisciPreferiti);
+            }
+            else 
+            {
+                divPreferiti.appendChild(gioco);
+                imgPreferiti.src = "Imm-Preferito.jpg";
+                imgPreferiti.addEventListener("click", togliPreferiti);
+            }
             const imgGioco = document.createElement('img');
             imgGioco.src = item.immagine;
             noClick.appendChild(imgGioco);
@@ -94,6 +130,10 @@ function apriSottoSito(event){
             click.appendChild(descrizione);
         }
     }
+    if(nonPreferiti.querySelector(".gioco") === null)
+        nonPreferiti.classList.add('hidden');
+    if(preferiti.querySelector(".gioco") === null)
+        preferiti.classList.add('hidden');
     const margineSotto = document.createElement('div');
     margineSotto.classList.add('margine');
     newSottoSito.appendChild(margineSotto);
@@ -111,7 +151,7 @@ function oscuraSito(){
 function chiudiSottoSito(){
     const sottoSiti = document.querySelectorAll(".sotto-sito");
     for(const item of sottoSiti){
-        if(item.classList.contains('hidden') === false)
+        if(!item.classList.contains('hidden'))
             item.classList.add('hidden');
     }
     const sito =  document.querySelector('#sito');
