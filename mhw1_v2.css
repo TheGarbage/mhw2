@@ -16,12 +16,7 @@ body{
     position: relative;
 }
 
-#sito{
-    position: absolute;
-    top: 0px;
-}
-
-#sito header{
+#header-sito{
     height: 200px;
     background-image: url(Imm-Home.jpg);
     background-size: cover;
@@ -33,7 +28,7 @@ body{
     margin-bottom: 100px;
 }
 
-#sito header h1{
+#header-sito h1{
     margin-bottom: 10px;
     margin-left: 20px;
     width: 40%;
@@ -174,7 +169,7 @@ nav a:hover{
         font-size: 20px;
     }
 
-    #sito header{
+    #header-sito{
         height: 150px;
     }
 
@@ -188,12 +183,12 @@ nav a:hover{
         font-size: 17px;
     }
 
-    #sito header h1{
+    #header-sito h1{
         font-size: 80px;
         width: 100%;
     }
 
-    #sito header{
+    #header-sito{
         height: 200px;
         margin-bottom: 50px;
     }
