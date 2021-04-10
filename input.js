@@ -3,12 +3,17 @@ let giochiAperti = [];
 let vecchiaValue = '';
 
 function ricerca(event){
-    const inp = event.currentTarget;
-    if(vecchiaValue.length < inp.value.length)
-        nascondiGiochi(inp.value.toUpperCase()[inp.value.length-1]);
-    else if(vecchiaValue.length > inp.value.length)
-        mostraGiochi(inp.value.toUpperCase(), vecchiaValue.toUpperCase()[vecchiaValue.length-1]);
-    vecchiaValue = inp.value;
+    const nuovaValue = event.currentTarget.value;
+    if(vecchiaValue.length < nuovaValue.length)
+        nascondiGiochi(nuovaValue.toUpperCase()[nuovaValue.length-1]);
+    else if(vecchiaValue.length > nuovaValue.length){
+        let lettera;
+        for(letteraVecchia of vecchiaValue)
+            if(nuovaValue.indexOf(letteraVecchia) === -1)
+                lettera = letteraVecchia;
+        mostraGiochi(nuovaValue.toUpperCase(), vecchiaValue.toUpperCase()[vecchiaValue.length-1]);
+    }
+    vecchiaValue = nuovaValue;
 }
 
 function nascondiGiochi(lettera){
