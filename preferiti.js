@@ -49,7 +49,7 @@ function creaPreferito(blocco, codice){
     giocoPreferito.classList.add('giocoPreferito');
     giocoPreferito.dataset.codice = codice + "preferito";
     const imgGioco = document.createElement("img");
-    imgGioco.src = blocco.querySelectorAll('img')[2].src;
+    imgGioco.src = blocco.querySelector('[data-img-gioco = true]').src;
     giocoPreferito.appendChild(imgGioco);
     const div = document.createElement('div');
     giocoPreferito.appendChild(div);

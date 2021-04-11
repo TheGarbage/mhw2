@@ -30,7 +30,9 @@ function creaSottoSito(blocco){
     newSottoSito.appendChild(preferiti);
     const textPreferiti = document.createElement('li');
     textPreferiti.textContent = "Preferiti della categoria";
-    preferiti.appendChild(textPreferiti);
+    const listaPreferiti = document.createElement('ul');
+    listaPreferiti.appendChild(textPreferiti); 
+    preferiti.appendChild(listaPreferiti);
     const divPreferiti = document.createElement('div');
     divPreferiti.classList.add('giochi');
     preferiti.appendChild(divPreferiti);
@@ -42,14 +44,15 @@ function creaSottoSito(blocco){
     nonPreferiti.appendChild(subNonPreferiti);
     const textNonPreferiti = document.createElement('li');
     textNonPreferiti.textContent = "Lista giochi categoria";
-    subNonPreferiti.appendChild(textNonPreferiti); 
-    const inputCerca = document.createElement('input');
-    const testoCerca = document.createElement('p');
-    testoCerca.textContent = "Cerca:";
-    const conteiner = document.createElement('div');
-    conteiner.appendChild(testoCerca); 
-    conteiner.appendChild(inputCerca); 
-    subNonPreferiti.appendChild(conteiner);
+    const listaNonPreferiti = document.createElement('ul');
+    listaNonPreferiti.appendChild(textNonPreferiti); 
+    subNonPreferiti.appendChild(listaNonPreferiti); 
+    const form = document.createElement('form');
+    form.textContent = "Cerca:";
+    const inputCerca = document.createElement('input'); 
+    inputCerca.type = "text";
+    form.appendChild(inputCerca); 
+    subNonPreferiti.appendChild(form);
     const divNonPreferiti = document.createElement('div');
     divNonPreferiti.classList.add('giochi');
     nonPreferiti.appendChild(divNonPreferiti);
@@ -57,17 +60,17 @@ function creaSottoSito(blocco){
         if(item.categoria === index[newSottoSito.dataset.tema] || index[newSottoSito.dataset.tema] === 'VediTutto'){
             const gioco = document.createElement('div');
             gioco.classList.add('gioco');
+            gioco.classList.add('giocoMinoriDettagli');
             gioco.dataset.codice = item.codice + "nonPreferito";
             divNonPreferiti.appendChild(gioco);
             const noClick = document.createElement('section');
-            noClick.classList.add('noclick');
+            noClick.classList.add('noClick');
             gioco.appendChild(noClick);
             const divGioco = document.createElement('div');
             noClick.appendChild(divGioco);
             const stella = document.createElement('img');
             stella.src = "Imm-Stella.jpg";
             stella.classList.add('stella');
-            stella.classList.add('hidden');
             divGioco.appendChild(stella);
             const nomeGioco = document.createElement('h5');
             nomeGioco.textContent = item.titolo;
@@ -81,17 +84,19 @@ function creaSottoSito(blocco){
             divGioco.appendChild(imgPreferiti);
             const imgGioco = document.createElement('img');
             imgGioco.src = item.immagine;
+            imgGioco.dataset.imgGioco = true;
             noClick.appendChild(imgGioco);
             const cliccaQui = document.createElement('p');
             cliccaQui.textContent = "Clicca per maggiori info";
             cliccaQui.classList.add("pointer");
+            cliccaQui.addEventListener('click', mostraDettagli);
             noClick.appendChild(cliccaQui);
             const click = document.createElement('section');
             click.classList.add('click');
             click.classList.add('hidden');
             gioco.appendChild(click);
-            const descrizione = document.createElement('p');
-            descrizione.textContent = item.categoria + "<\b>" + item.descrizione;
+            const descrizione = document.createElement('h5');
+            descrizione.innerHTML = "Categoria: " + item.categoria + '</br>' + item.descrizione;
             click.appendChild(descrizione);
             if(giochiPreferiti.indexOf( imgPreferiti.dataset.codice) !== -1){
                 imgPreferiti.classList.add('hidden');
@@ -101,6 +106,8 @@ function creaSottoSito(blocco){
                     preferiti.classList.remove('hidden');
                 divPreferiti.appendChild(creaPreferito(gioco, item.codice));
             }
+            else
+                stella.classList.add('hidden');
         }
     }
     return newSottoSito;
